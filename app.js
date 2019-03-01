@@ -31,10 +31,14 @@ if (!isProduction) {
 }
 
 if(isProduction){
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+  mongoose.set('useCreateIndex', true);
 } else {
-  mongoose.connect('mongodb://localhost/conduit');
+  mongoose.connect('mongodb://localhost/conduit', { 
+    useNewUrlParser: true 
+  });
   mongoose.set('debug', true);
+  mongoose.set('useCreateIndex', true);
 }
 
 require('./models/User');
@@ -80,5 +84,5 @@ app.use(function(err, req, res, next) {
 
 // finally, let's start our server...
 var server = app.listen( process.env.PORT || 3000, function(){
-  console.log('Listening on port ' + server.address().port);
+  console.log('Listening on http://localhost:' + server.address().port);
 });
