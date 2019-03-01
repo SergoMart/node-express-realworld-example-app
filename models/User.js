@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
-var uniqueValidator = require('mongoose-unique-validator');
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
-var secret = require('../config').secret;
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const secret = require('../config').secret;
 
-var UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true},
   email: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
   bio: String,
@@ -18,7 +18,7 @@ var UserSchema = new mongoose.Schema({
 UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
 UserSchema.methods.validPassword = function(password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+  const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
   return this.hash === hash;
 };
 
@@ -28,8 +28,8 @@ UserSchema.methods.setPassword = function(password){
 };
 
 UserSchema.methods.generateJWT = function() {
-  var today = new Date();
-  var exp = new Date(today);
+  const today = new Date();
+  const exp = new Date(today);
   exp.setDate(today.getDate() + 60);
 
   return jwt.sign({
