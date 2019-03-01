@@ -3,6 +3,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const secret = require('../config').secret;
+// const { ReactComponent as Logo } = require('./Andy.svg');
+// const blankuser = require('../image/blankuser.jpg');
+// import logo from './logo.png'
+// import blankuser from '../image/blankuser.jpg'
 
 const UserSchema = new mongoose.Schema({
   username: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true},
@@ -53,7 +57,10 @@ UserSchema.methods.toProfileJSONFor = function(user){
   return {
     username: this.username,
     bio: this.bio,
-    image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
+    image: this.image,
+    // image: this.image || 'blankuser',
+    image: this.image || 'http://icons.iconarchive.com/icons/diversity-avatars/avatars/128/andy-warhol-icon.png',
+  
     following: user ? user.isFollowing(this._id) : false
   };
 };
