@@ -8,6 +8,7 @@ const http = require('http'),
     passport = require('passport'),
     errorhandler = require('errorhandler'),
     mongoose = require('mongoose');
+    require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,7 +25,12 @@ app.use(bodyParser.json());
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
-app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
+app.use(session({ 
+  secret: process.env.SECRET || 'conduit',
+  cookie: { maxAge: 60000 }, 
+  resave: false, 
+  saveUninitialized: false  
+}));
 
 if (!isProduction) {
   app.use(errorhandler());
