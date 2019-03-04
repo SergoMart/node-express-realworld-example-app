@@ -99,8 +99,9 @@ passport.use(new LocalStrategy({
 // }));
 
 
-module.exports = function(passport) {
-
+/**
+ * Sign in with Yandex.
+ */
   // Passport session setup.
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser((id, done) => User.findById(id, (err, user) => done(null,user)));
@@ -119,4 +120,3 @@ module.exports = function(passport) {
           // }
       }
   ));
-};
