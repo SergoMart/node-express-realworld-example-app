@@ -97,3 +97,26 @@ passport.use(new LocalStrategy({
 //     });
 //   }
 // }));
+
+
+module.exports = function(passport) {
+
+  // Passport session setup.
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser((id, done) => User.findById(id, (err, user) => done(null,user)));
+  
+  passport.use(
+      new YandexStrategy({
+          clientID: process.env.YANDEX_CLIENT_ID,
+          clientSecret: process.env.YANDEX_CLIENT_SECRET,
+          callbackURL: `${process.env.BASE_URL}/auth/yandex/callback`
+      },
+      (accessToken, refreshToken, profile, done) => {
+          // if (haveRednavisEmail(profile.emails)) {
+              handleLoggedUser(profile, done);
+          // } else {
+          //     done(new Error('Not allowed account'));
+          // }
+      }
+  ));
+};
