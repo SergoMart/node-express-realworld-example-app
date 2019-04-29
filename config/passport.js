@@ -3,6 +3,7 @@ const { Strategy: LocalStrategy } = require('passport-local');
 const { Strategy: FacebookStrategy } = require('passport-facebook');
 const { Strategy: TwitterStrategy } = require('passport-twitter');
 const { Strategy: YandexStrategy } = require('passport-yandex');
+const { Strategy: ClientCertStrategy } = require('passport-client-cert');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
@@ -113,7 +114,7 @@ passport.use(new LocalStrategy({
           callbackURL: `${process.env.BASE_URL}/auth/yandex/callback`
       },
       (accessToken, refreshToken, profile, done) => {
-          // if (haveRednavisEmail(profile.emails)) {
+          // if (haveSomeEmail(profile.emails)) {
               handleLoggedUser(profile, done);
           // } else {
           //     done(new Error('Not allowed account'));
